@@ -9,7 +9,7 @@ import { IoLogOut } from "react-icons/io5";
 
 const LeftSidebar = () => {
   return (
-    <div>
+    <div className="w-[20%]">
       <div>
         <div>
           <img
