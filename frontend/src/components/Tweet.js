@@ -16,7 +16,7 @@ const Tweet = () => {
           />
           <div className="ml-2 w-full">
             <div className="flex items-center">
-              <h1 className="font-bold">Patel</h1>
+              <h1 className="font-bold">Himanshu</h1>
               <p className="text-gray-500 text-sm ml-1">@sudocoder . 1m</p>
             </div>
             <div>
