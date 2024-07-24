@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import databseConnection from "./config/database.js";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoute.js";
+import tweetRoute from "./routes/tweetRoute.js";
 const app = express();
 dotenv.config();
 databseConnection();
@@ -16,7 +17,7 @@ app.use(cookieParser());
 
 //api
 app.use("/api/v1/user",userRoute);
-http://localhost:8080/api/v1/user/register
+app.use("/api/v1/tweet",tweetRoute);
 
 app.get("/home",(req,res)=>{
   res.status(200).json({
