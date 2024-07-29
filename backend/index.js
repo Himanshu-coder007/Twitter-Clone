@@ -10,7 +10,7 @@ databseConnection();
 
 // middlewares
 app.use(express.urlencoded({
-  extends:true
+  extended:true
 }));
 app.use(express.json());
 app.use(cookieParser());
@@ -21,7 +21,7 @@ app.use("/api/v1/tweet",tweetRoute);
 
 app.get("/home",(req,res)=>{
   res.status(200).json({
-    Message:"comming from backend..."
+    Message:"Coming from backend..."
   })
 });
 

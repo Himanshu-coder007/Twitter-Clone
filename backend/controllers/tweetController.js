@@ -63,7 +63,5 @@ export const likeOrDislike = async (req,res) => {
     } catch(error) {
         console.log(error);
     }
-}
+};
 
-
-;
