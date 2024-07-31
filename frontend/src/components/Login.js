@@ -15,8 +15,8 @@ const Login = () => {
       // login
       try {
         const res = await axios.post(`${USER_API_END_POINT}/login`, {
-          name,
-          username,
+          email,
+          password,
         });
         console.log(res);
       } catch (error) {
