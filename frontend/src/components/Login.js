@@ -1,34 +1,46 @@
 import React, { useState } from "react";
-import axios from "axios"
+import axios from "axios";
 import { USER_API_END_POINT } from "../utils/constant";
 
 const Login = () => {
-  const [isLogin,setIsLogin] =useState(true);
+  const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    if(isLogin){
-        // loginn
-    }else {
-        // signup
-        try {
-
-        } catch (error) {
-          console.log(error);
-        }
+    if (isLogin) {
+      // login
+      try {
+        const res = await axios.post(`${USER_API_END_POINT}/login`, {
+          name,
+          username,
+        });
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      // signup
+      try {
+        const res = await axios.post(`${USER_API_END_POINT}/register`, {
+          name,
+          username,
+          email,
+          password,
+        });
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-
+  };
 
   const loginSignupHandler = () => {
     setIsLogin(!isLogin);
-  }
-
+  };
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">

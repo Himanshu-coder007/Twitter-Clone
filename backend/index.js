@@ -7,6 +7,7 @@ import tweetRoute from "./routes/tweetRoute.js";
 const app = express();
 dotenv.config();
 databseConnection();
+import cors from "cors";
 
 // middlewares
 app.use(express.urlencoded({
@@ -14,6 +15,11 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.use(cookieParser());
+const corsOptions = {
+  origin: "http://localhost:3000",
+  Credentials: true
+}
+app.use(cors(corsOptions));
 
 //api
 app.use("/api/v1/user",userRoute);
