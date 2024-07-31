@@ -121,3 +121,53 @@ export const getAllTweets = async (req, res) => {
     });
   }
 };
+
+
+// export const getFollowingTweets = async (req,res) =>{
+//   try {
+//     const id = req.params.id;
+//     const loggedInUser = await User.findById(id);
+//     const followingUserTweet = await Promise.all(loggedInUser.following.map((otherUserId)=>{
+//       return Tweet.findById({userId: otherUserId});
+//     }));
+//     return res.status(200).json({
+//       tweets:[].concaat(...followingUserTweet)
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+export const getFollowingTweets = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const loggedInUser = await User.findById(id);
+
+    if (!loggedInUser) {
+      return res.status(404).json({
+        message: "Logged in user not found",
+        success: false,
+      });
+    }
+
+    const followingUserTweets = await Promise.all(
+      loggedInUser.following.map(async (otherUserId) => {
+        return Tweet.find({ userId: otherUserId });
+      })
+    );
+
+    // Flatten the array of tweets from following users
+    const allFollowingTweets = followingUserTweets.flat();
+
+    return res.status(200).json({
+      tweets: allFollowingTweets,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "An error occurred",
+      success: false,
+    });
+  }
+};
