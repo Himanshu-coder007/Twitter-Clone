@@ -2,6 +2,7 @@ import "./App.css";
 
 import Home from "./components/Home";
 import { createBrowserRouter,RouterProvider } from "react-router-dom";
+import {Toaster} from "react-hot-toast"
 
 import Login from "./components/Login";
 import Feed from "./components/Feed";
@@ -31,6 +32,7 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={appRouter} />
+      <Toaster/>
     </div>
   );
 }

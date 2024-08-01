@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../utils/constant";
+import toast from "react-hot-toast"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -8,6 +10,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -23,8 +26,12 @@ const Login = () => {
           },
           withCredentials: true
         });
-        
+        if(res.data.success){
+          navigate("/");
+          toast.success(res.data.message);
+        }
       } catch (error) {
+        toast.success(error.res.data.message);
         console.log(error);
       }
     } else {
@@ -41,8 +48,12 @@ const Login = () => {
           },
           withCredentials: true
         });
-        console.log(res);
+        if(res.data.success){
+          setIsLogin(true);
+          toast.success(res.data.message);
+        }
       } catch (error) {
+        toast.success(error.res.data.message);
         console.log(error);
       }
     }
