@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
   origin: "http://localhost:3000",
-  Credentials: true
-}
+  credentials: true,
+};
 app.use(cors(corsOptions));
 
 //api

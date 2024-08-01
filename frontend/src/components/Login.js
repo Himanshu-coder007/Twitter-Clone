@@ -17,8 +17,13 @@ const Login = () => {
         const res = await axios.post(`${USER_API_END_POINT}/login`, {
           email,
           password,
+        },{
+          headers: {
+            'Content-Type': "application/json"
+          },
+          withCredentials: true
         });
-        console.log(res);
+        
       } catch (error) {
         console.log(error);
       }
@@ -30,6 +35,11 @@ const Login = () => {
           username,
           email,
           password,
+        },{
+          headers: {
+            'Content-Type' : "application/json"
+          },
+          withCredentials: true
         });
         console.log(res);
       } catch (error) {
