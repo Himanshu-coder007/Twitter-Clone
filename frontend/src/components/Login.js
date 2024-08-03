@@ -35,8 +35,7 @@ const Login = () => {
           toast.success(res.data.message);
         }
       } catch (error) {
-        toast.success(error.res.data.message);
-        console.log(error);
+       toast.error("wrong email or password"); 
       }
     } else {
       // signup

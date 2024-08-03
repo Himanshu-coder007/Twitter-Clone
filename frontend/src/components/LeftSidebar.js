@@ -6,9 +6,11 @@ import { IoMdPerson } from "react-icons/io";
 import { BsBookmarkFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 const LeftSidebar = () => {
+   const { user} = useSelector((store) => store.user);
   return (
     <div className="w-[20%]">
       <div>
@@ -39,7 +41,7 @@ const LeftSidebar = () => {
             </div>
             <h1 className="font-bold text-lg ml-2">Notification</h1>
           </div>
-          <Link to="/profile" className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 hover:cursor-pointer rounded-full">
+          <Link to={`/profile/${user?._id}`} className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 hover:cursor-pointer rounded-full">
             <div>
               <IoMdPerson size={"24px"} />
             </div>

@@ -1,8 +1,37 @@
 import React from "react";
 import Avatar from "react-avatar"
 import { FaImage } from "react-icons/fa";
+import { useState } from "react";
+import axios from "axios";
+import { TWEET_API_END_POINT } from "../utils/constant";
+import toast from "react-hot-toast";
+import {useDispatch, useSelector} from "react-redux";
+import { getRefresh } from "../redux/tweetSlice";
 
 const CreatePost = () => {
+  const [description, setDescription] = useState(" ");
+  const {user} = useSelector(store=>store.user);
+  const dispatch = useDispatch();
+
+
+  const submitHandler = async()=>{
+    try {
+      const res = await axios.post(`${TWEET_API_END_POINT}/create`,{description, id:user?._id },{
+        headers:{
+          "Contet-Type" : "application/json"
+        },
+        withCredentials:true,
+      });
+      dispatch(getRefresh());
+      if(res.data.success){
+        toast.success(res.data.message)
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+    setDescription("");
+  }
   return (
     <div className="w-[100%]">
       <div>
@@ -24,16 +53,21 @@ const CreatePost = () => {
               />
             </div>
             <input
-              className="w-full outline-none border-none text-lg ml-2"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full outline-none border-none text-xl ml-2"
               type="text"
-              placeholder="What is happening?"
+              placeholder="What is happening?!"
             />
           </div>
           <div className="flex justify-between p-4 border-b border-gray-300">
             <div className="my-2">
-              <FaImage />
+              <FaImage size="24px" />
             </div>
-            <button className="bg-[#1A8CD8] px-4 py-1 text-lg text-white rounded-full">
+            <button
+              onClick={submitHandler}
+              className="bg-[#1A8CD8] px-4 py-1 text-lg text-white rounded-full"
+            >
               Post
             </button>
           </div>
