@@ -3,6 +3,7 @@ import Avatar from 'react-avatar'
 import { FaRegComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { CiBookmark } from "react-icons/ci";
+import { MdOutlineDelete } from "react-icons/md";
 import axios from "axios";
 import { TWEET_API_END_POINT } from '../utils/constant';
 import toast from 'react-hot-toast';
@@ -24,6 +25,20 @@ const Tweet = ({tweet}) => {
       toast.error(error.respoonse.data.message);
       console.log(error);
     }
+  }
+
+  const deleteTweetHandler = async (id) => {
+    try{
+      axios.defaults.withCredentials = true;
+      const res = await axios.delete(`${TWEET_API_END_POINT}/delete/${id}`);
+      console.log(res);
+      dispatch(getRefresh());
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error("Oops! Something went wrong");
+      console.log(error);
+    }
+      
   }
   return (
     <div className="border-b border-gray-200">
@@ -51,7 +66,10 @@ const Tweet = ({tweet}) => {
                 <p className="ml-1">0</p>
               </div>
               <div className="flex items-center">
-                <div onClick={()=>likeOrDislike(tweet?._id)} className="p-2 hover:bg-pink-200 rounded-full cursor-pointer">
+                <div
+                  onClick={() => likeOrDislike(tweet?._id)}
+                  className="p-2 hover:bg-pink-200 rounded-full cursor-pointer"
+                >
                   <CiHeart size={"24px"} />
                 </div>
 
@@ -64,6 +82,15 @@ const Tweet = ({tweet}) => {
 
                 <p className="ml-1">0</p>
               </div>
+              {user?._id === tweet?.userId && (
+                <div className="flex items-center">
+                  <div onClick={()=>deleteTweetHandler(tweet?._id)}className="p-2 hover:bg-red-400 rounded-full cursor-pointer">
+                    <MdOutlineDelete size={"24px"} />
+                  </div>
+
+                  <p className="ml-1">0</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

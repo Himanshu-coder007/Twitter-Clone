@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { getRefresh } from "../redux/tweetSlice";
 
 const CreatePost = () => {
-  const [description, setDescription] = useState(" ");
+  const [description, setDescription] = useState("");
   const {user} = useSelector(store=>store.user);
   const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ const CreatePost = () => {
     try {
       const res = await axios.post(`${TWEET_API_END_POINT}/create`,{description, id:user?._id },{
         headers:{
-          "Contet-Type" : "application/json"
+          "Content-Type" : "application/json"
         },
         withCredentials:true,
       });
