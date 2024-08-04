@@ -6,7 +6,7 @@ import axios from "axios";
 import { TWEET_API_END_POINT } from "../utils/constant";
 import toast from "react-hot-toast";
 import {useDispatch, useSelector} from "react-redux";
-import { getRefresh } from "../redux/tweetSlice";
+import { getAllTweets, getRefresh } from "../redux/tweetSlice";
 
 const CreatePost = () => {
   const [description, setDescription] = useState("");
@@ -32,6 +32,18 @@ const CreatePost = () => {
     }
     setDescription("");
   }
+
+  const followingTweetHanndler = async () => {
+    const id = user?._id;
+    try {
+      const res = await axios.get(`${TWEET_API_END_POINT}/followingtweets/${id}`);
+      console.log(res);
+      dispatch(getAllTweets(res.data.tweets));
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className="w-[100%]">
       <div>
@@ -39,7 +51,7 @@ const CreatePost = () => {
           <div className="cursor-pointer hover:bg-gray-200 w-full text-center px-4 py-3">
             <h1 className="font-semibold text-gray-600 text-lg">For You</h1>
           </div>
-          <div className="cursor-pointer hover:bg-gray-200 w-full text-center px-4 py-3">
+          <div onClick={followingTweetHanndler} className="cursor-pointer hover:bg-gray-200 w-full text-center px-4 py-3">
             <h1 className="font-semibold text-gray-600 text-lg">Following</h1>
           </div>
         </div>
