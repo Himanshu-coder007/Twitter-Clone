@@ -5,12 +5,31 @@ import { IoIosNotifications } from "react-icons/io";
 import { IoMdPerson } from "react-icons/io";
 import { BsBookmarkFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link,useNavigate } from "react-router-dom";
+import { useSelector,useDispatch } from "react-redux";
+import axios from "axios";
+import { USER_API_END_POINT } from "../utils/constant";
+import toast from "react-hot-toast";
+import { getMyProfile, getOtherUsers, getUser } from "../redux/userSlice";
+ 
 
 
 const LeftSidebar = () => {
-   const { user} = useSelector((store) => store.user);
+  const { user } = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`);
+      dispatch(getUser(null));
+      dispatch(getOtherUsers(null));
+      dispatch(getMyProfile(null));
+      navigate("/login");
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-[20%]">
       <div>
@@ -57,7 +76,7 @@ const LeftSidebar = () => {
             <div>
               <IoLogOut size={"24px"} />
             </div>
-            <h1 className="font-bold text-lg ml-2">Logout</h1>
+            <h1 onClick={logoutHandler} className="font-bold text-lg ml-2">Logout</h1>
           </div>
           <button className="px-4 py-2 border-none text-md bg-[#1A8CD8] w-full rounded-full text-white font-bold">
             Post
