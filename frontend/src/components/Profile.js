@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 import { IoMdArrowBack } from "react-icons/io";
-import {Link, useParams} from 'react-router-dom';
-import Avatar from 'react-avatar';
+import { Link, useParams } from "react-router-dom";
+import Avatar from "react-avatar";
 import { useSelector } from "react-redux";
 import useGetProfile from "../hooks/useGetProfile";
 
 const Profile = () => {
-  const {  profile } = useSelector(store => store.user);
-  const {id} = useParams();
+  const { user, profile } = useSelector((store) => store.user);
+  const { id } = useParams();
   useGetProfile(id);
   return (
     <div className="w-[50%] border-l border-r border-gray-200">
@@ -36,15 +36,21 @@ const Profile = () => {
           />
         </div>
         <div className="text-right m-4">
-          <button className="px-4 py-1 hover:bg-gray-200 rounded-full  border border-gray-400">
-            Edit Profile
-          </button>
+          {profile?._id === user?._id ? (
+            <button className="px-4 py-1 hover:bg-gray-200 rounded-full border border-gray-400">
+              Edit Profile
+            </button>
+          ) : (
+            <button className="px-4 py-1 bg-black text-white rounded-full">
+              {user.following.includes(id) ? "Following" : "Follow"}
+            </button>
+          )}
         </div>
         <div className="m-4">
           <h1 className="font-bold text-xl">{profile?.name}</h1>
           <p>{`@${profile?.username}`}</p>
         </div>
-        <div className='m-4 text-sm'>
+        <div className="m-4 text-sm">
           <p>
             Exploring the web's endless possibilities with MERN Stack 🚀 |
             Problem solver by day, coder by night 🌙 | Coffee lover ☕ | Join me
@@ -54,6 +60,6 @@ const Profile = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Profile
+export default Profile;
