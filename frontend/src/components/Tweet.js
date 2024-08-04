@@ -3,8 +3,28 @@ import Avatar from 'react-avatar'
 import { FaRegComment } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { CiBookmark } from "react-icons/ci";
+import axios from "axios";
+import { TWEET_API_END_POINT } from '../utils/constant';
+import toast from 'react-hot-toast';
+import { useSelector,useDispatch } from 'react-redux';
+import { getRefresh } from '../redux/tweetSlice';
 
 const Tweet = ({tweet}) => {
+  const {user} = useSelector(store=>store.user);
+  const dispatch = useDispatch();
+  const likeOrDislike = async (id)=>{
+    try {
+      const res= await axios.put(`${TWEET_API_END_POINT}/like/${id}`,{id:user?._id},{
+        withCredentials:true
+      })
+      console.log(res);
+      dispatch(getRefresh());
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.respoonse.data.message);
+      console.log(error);
+    }
+  }
   return (
     <div className="border-b border-gray-200">
       <div>
@@ -31,7 +51,7 @@ const Tweet = ({tweet}) => {
                 <p className="ml-1">0</p>
               </div>
               <div className="flex items-center">
-                <div className="p-2 hover:bg-pink-200 rounded-full cursor-pointer">
+                <div onClick={()=>likeOrDislike(tweet?._id)} className="p-2 hover:bg-pink-200 rounded-full cursor-pointer">
                   <CiHeart size={"24px"} />
                 </div>
 
