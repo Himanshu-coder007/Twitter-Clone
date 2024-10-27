@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { USER_API_END_POINT } from "../utils/constant";
-import toast from "react-hot-toast"
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getUser } from "../redux/userSlice";
@@ -20,43 +20,44 @@ const Login = () => {
     if (isLogin) {
       // login
       try {
-        const res = await axios.post(`${USER_API_END_POINT}/login`, {
-          email,
-          password,
-        },{
-          headers: {
-            'Content-Type': "application/json"
-          },
-          withCredentials: true
-        });
+        const res = await axios.post(
+          `${USER_API_END_POINT}/login`,
+          { email, password },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
         dispatch(getUser(res?.data?.user));
-        if(res.data.success){
+        if (res.data.success) {
           navigate("/");
           toast.success(res.data.message);
         }
       } catch (error) {
-       toast.error("wrong email or password"); 
+        toast.success(error.response.data.message);
+        console.log(error);
       }
     } else {
       // signup
       try {
-        const res = await axios.post(`${USER_API_END_POINT}/register`, {
-          name,
-          username,
-          email,
-          password,
-        },{
-          headers: {
-            'Content-Type' : "application/json"
-          },
-          withCredentials: true
-        });
-        if(res.data.success){
+        const res = await axios.post(
+          `${USER_API_END_POINT}/register`,
+          { name, username, email, password },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        if (res.data.success) {
           setIsLogin(true);
           toast.success(res.data.message);
         }
       } catch (error) {
-        toast.success(error.res.data.message);
+        toast.success(error.response.data.message);
         console.log(error);
       }
     }
@@ -79,11 +80,10 @@ const Login = () => {
         </div>
         <div>
           <div className="my-5">
-            <h1 className="font-bold text-6xl">Happening now</h1>
+            <h1 className="font-bold text-6xl">Happening now.</h1>
           </div>
-
           <h1 className="mt-4 mb-2 text-2xl font-bold">
-            {isLogin ? "Login" : "Signup"}
+            {isLogin ? "Login" : "Singup"}
           </h1>
           <form onSubmit={submitHandler} className="flex flex-col w-[55%]">
             {!isLogin && (
@@ -122,10 +122,10 @@ const Login = () => {
               {isLogin ? "Login" : "Create Account"}
             </button>
             <h1>
-              {isLogin ? "Do not have an account?" : "Already have an account?"}
+              {isLogin ? "Do not have an account?" : "Already have an account?"}{" "}
               <span
                 onClick={loginSignupHandler}
-                className="font-bold text-blue-600 cursor-pointer ml-1"
+                className="font-bold text-blue-600 cursor-pointer"
               >
                 {isLogin ? "Signup" : "Login"}
               </span>
